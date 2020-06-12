@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		<mapper namespace="com.dao.BillDao" >
+<insert id="addbill" parameterType="java.util.Map">
+insert into relationship (relationshipid,resourcesid,purchaseid,state,Auditstatus,Transactionstatus)
+values(relationship_seq.nextval,#{resourcesid},#{purchaseid},#{state},1,2)
+</insert>
+		
+<!-- 根据采购单id查询竞价关系表  detailsid-->
+<select id="findRelBypurid" parameterType="java.lang.Integer" resultMap="shipMap">
+select relationshipid,resourcesid as details,purchaseid,state,Auditstatus,Transactionstatus from relationship where purchaseid = #{purchaseid}
+</select>
+		
+<!-- 根据竞价关系id查询竞价关系表 -->
+<select id="findRelByrelationid" parameterType="java.lang.Integer" resultMap="shipMap">
+select relationshipid,resourcesid as details,purchaseid,state,Auditstatus,Transactionstatus from relationship where relationshipid = #{relationshipid}
+</select>
+<resultMap type="com.pojo.BillRelationship" id="shipMap">
+<id property="relationshipid" column="relationshipid"/>
+<result property="state" column="state"/>
+<result property="Auditstatus" column="Auditstatus"/>
+<result property="Transactionstatus" column="Transactionstatus"/>
+<association property="details" column="details" select="com.dao.ResourceDao.findresourcedetailsbydetailid"></association>
+<association property="purchaser" column="purchaseid" select="com.dao.PurchaseorderDao.findpurbyid"></association>
+</resultMap>
+		
+</mapper>

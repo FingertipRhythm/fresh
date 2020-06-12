@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.PurchaseorderDao">
+	<!-- 分页条件查询采购单 -->
+	<select id="queryPurchaseorder" parameterType="java.util.Map" resultType="com.pojo.Purchaseorder">
+		select purchaseid, pid, purchaseordername, purchasename, place,
+		spec,
+		rank, num, unitprice, warehouse, futuresspot, payment, receipt,
+		receivingaddress, remarks, starttime, endtime, contacts, company,
+		phone from
+		(select rownum r, purchaseid, pid, purchaseordername,
+		purchasename, place,
+		spec, rank, num, unitprice, warehouse,
+		futuresspot, payment, receipt,
+		receivingaddress, remarks, starttime,
+		endtime, contacts, company,
+		phone from
+		(select purchaseid, pid, purchaseordername, purchasename, place, spec, rank,
+		num, unitprice, warehouse, futuresspot, payment, receipt,
+		receivingaddress, remarks, starttime, endtime, contacts, company,
+		phone from purchaseorder
+		<where>
+			<if test="purchaseordername !=null ">
+				purchaseordername=#{purchaseordername}
+			</if>
+			<if test="starttime !=null ">
+				starttime=#{starttime}
+			</if>
+			<if test="purchaseordername !=null ">
+				endtime=#{endtime}
+			</if>
+		</where>
+		) where rownum&lt;#{end}) where r&gt;#{start}
+	</select>
+	<!--总订单数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(purchaseid) from purchaseorder
+	</select>
+
+    <!-- 添加采购单 -->
+	<insert id="addPurchaseorder" parameterType="com.pojo.Purchaseorder">
+		insert into purchaseorder values (purchaseid=#{purchaseid}, pid=#{pid},
+		purchaseordername=#{purchaseordername},
+		purchasename=#{purchasename}, place=#{place},spec=#{spec}, rank=#{rank},
+		num=#{num}, unitprice=#{unitprice},warehouse=#{warehouse},
+		futuresspot=#{futuresspot},
+		payment=#{payment}, receipt=#{receipt}, receivingaddress=#{receivingaddress},
+		remarks=#{remarks},
+		starttime=#{starttime}, endtime=#{endtime}, contacts=#{contacts}, company=#{company},
+		phone=#{phone})
+	</insert>
+	
+	
+	<select id="findpurbyid" parameterType="java.lang.Integer" resultType="com.pojo.Purchaseorder">
+	select * from purchaseorder where purchaseid=#{purchaseid}
+	</select>
+	
+	
+	
+</mapper>

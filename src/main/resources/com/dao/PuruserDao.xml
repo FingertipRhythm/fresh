@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.dao.PuruserDao">
+     
+     <insert id="findAddgr"  parameterType="com.pojo.Puruser"  >
+       insert into puruser(pid,userid,sname,sid,spath,address,gphone,email,judge) VALUES
+			(pru_seq.nextval,#{userid},#{sname},#{sid},#{spath},#{address},#{gphone},#{email},#{judge})
+     </insert>
+     
+     <insert id="findAddgs" parameterType="com.pojo.Puruser">
+     insert into puruser(pid,userid,cname,address,spath,qyfrname,sname,post,gphone,judge) VALUES
+			(pru_seq.nextval,#{userid},#{cname},#{address},#{spath},#{qyfrname},#{sname},#{post},#{gphone},#{judge})
+     
+     </insert>
+     
+    
+     <select id="findgid"  parameterType="java.lang.Integer"  resultType="com.pojo.Puruser">
+  		   SELECT pid ,userid, judge FROM puruser WHERE userid=#{userid}
+     </select>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.PurchaseDao">
+	
+	<sql id="purchaseColumn">purchaseid, purchase_title, purchase_name, producing_area, purchase_type, purchase_level, storehouse, state, price_require, purchase_description, payment_method, invoice_type, receipt_address, start_time, end_time, userid, purchase_state, administratorsid, product_branchid, purchase_number, select_supplierid, contacts, company_name, contacts_phone</sql>
+	
+	<select id="findPurchasePage" parameterType="java.util.Map" resultType="com.pojo.Purchase">
+		SELECT <include refid="purchaseColumn"/> FROM
+		(SELECT ROWNUM rn,<include refid="purchaseColumn"/> FROM 
+		(SELECT <include refid="purchaseColumn"/> FROM purchase
+		<where>
+			<if test="purchase_state!=null"> purchase_state = #{purchase_state}</if>
+		</where>
+		)
+		WHERE ROWNUM &lt;=#{end}) WHERE rn&gt;#{start}
+	</select>
+	
+	<select id="findCount" resultType="java.lang.Integer">
+		SELECT COUNT(purchaseid) FROM purchase
+	</select>
+	
+	<select id="findPurchase" resultType="com.pojo.Purchase">
+		SELECT purchaseid, purchase_title, purchase_name, producing_area, purchase_type, purchase_level, storehouse, state, price_require, purchase_description, payment_method, invoice_type, receipt_address, start_time, end_time, userid, purchase_state, administratorsid, product_branchid, purchase_number, select_supplierid, contacts, company_name, contacts_phone FROM purchase
+	</select>
+	
+	<select id="findPurchaseById" parameterType="java.lang.Integer" resultType="com.pojo.Purchase">
+		SELECT purchaseid, purchase_title, purchase_name, producing_area, purchase_type, purchase_level, storehouse, state, price_require, purchase_description, payment_method, invoice_type, receipt_address, start_time, end_time, userid, purchase_state, administratorsid, product_branchid, purchase_number, select_supplierid, contacts, company_name, contacts_phone FROM purchase where purchaseid = #{purchaseid}
+	</select>
+	
+	<insert id="addPurchase" parameterType="com.pojo.Purchase">
+		INSERT INTO purchase
+  		(purchaseid, purchase_title, purchase_name, producing_area, purchase_type, purchase_level, storehouse, state, price_require, purchase_description, payment_method, invoice_type, receipt_address, start_time, end_time, userid, purchase_state, administratorsid, product_branchid, purchase_number, select_supplierid, contacts, company_name, contacts_phone)
+		VALUES
+  		(purchase_seq.nextval, #{purchase_title}, #{purchase_name}, #{producing_area}, #{purchase_type}, #{purchase_level}, #{storehouse}, #{state}, #{price_require}, #{purchase_description}, #{payment_method}, #{invoice_type}, #{receipt_address}, sysdate, #{end_time}, #{userid,jdbcType=NUMERIC}, 0, #{administratorsid,jdbcType=NUMERIC}, #{product_branchid,jdbcType=NUMERIC}, #{purchase_number}, #{select_supplierid,jdbcType=NUMERIC}, #{contacts}, #{company_name}, #{contacts_phone})
+	</insert>
+</mapper>

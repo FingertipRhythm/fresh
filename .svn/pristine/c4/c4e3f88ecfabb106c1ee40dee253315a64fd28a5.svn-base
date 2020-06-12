@@ -1,0 +1,4 @@
+mydriver=oracle.jdbc.OracleDriver
+myurl=jdbc:oracle:thin:@10.1.15.118:1521:orcl
+myuser=useres
+mypwd=pws

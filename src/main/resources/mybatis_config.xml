@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+
+	<mappers>
+		<mapper resource="com/dao/UserDao.xml" />
+		<mapper resource="com/dao/GiveuserDao.xml" />
+		<mapper resource="com/dao/FreshProductDao.xml" />
+		<mapper resource="com/dao/ResourceDao.xml" />
+		<mapper resource="com/dao/UserDao.xml" />
+		<mapper resource="com/dao/PuruserDao.xml" />
+		<mapper resource="com/dao/ProductClassDao.xml" />
+		<mapper resource="com/dao/Purchase.xml" />
+	</mappers>
+
+
+</configuration>

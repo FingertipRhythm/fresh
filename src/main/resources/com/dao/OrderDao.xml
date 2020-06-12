@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.OrderDao" >
+
+<!-- 添加订单表和订单详情表 -->
+<insert id="addOrder" parameterType="com.pojo.Freshorder">
+<selectKey resultType="java.lang.Integer" keyProperty="orderid" order="AFTER">
+select freshorder_seq.currval from dual
+</selectKey>
+insert into freshorder(orderid,orderno,gid,ordertime,phone,address,orderstatus)
+values(freshorder_seq.nextval,#{orderno},#{giveuser.gid},Sysdate,#{phone},#{address},#{orderstatus})
+</insert> 
+<insert id="addOrderdtail" parameterType="com.pojo.Forderdetail">
+insert into forderdetail (detailid,productid,orderid,ordercount) 
+values(forderdetail_seq.nextval,#{freshproduct.productid },#{freshorder.orderid},#{ordercount} )
+</insert>
+</mapper>

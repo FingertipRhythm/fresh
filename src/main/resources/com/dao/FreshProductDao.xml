@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.FreshProductDao" > 
+<!--添加商品-->
+<insert id="addfresh" parameterType="com.pojo.FreshProduct">
+<selectKey keyProperty="productid" resultType="java.lang.Integer" order="AFTER">
+select Freshproduct_seq.currval from dual
+</selectKey>
+insert into freshproduct (productid,productname, originplace, specifications, grade, inventory, storehouse, price, sf, classid, gid) 
+values(Freshproduct_seq.Nextval,#{productname},#{ originplace},#{ specifications},#{grade},#{ inventory},#{ storehouse},#{ price},#{sf},#{classid},#{giveruser.gid})
+</insert>
+<!-- 根据id查询商品 -->
+<select id="findproduct" parameterType="java.lang.Integer" resultMap="productMap">
+select * from freshproduct where productid=#{productid}
+</select>
+
+<!-- 竞价查询商品 -->
+<select id="findResourceBybill" parameterType="com.pojo.FreshProduct" resultMap="productMap">
+select * from freshproduct <!-- where productname=#{productname} -->
+ <where>
+<if test="classid!=null and !''.equals(classid)" > classid=#{classid}</if>
+<if test="specifications!=null and !''.equals(specifications)" >and specifications=#{specifications}</if>
+<if test="productname!=null and !''.equals(productname)" >and productname=#{productname}</if>
+</where>
+</select>
+
+<resultMap type="com.pojo.FreshProduct" id="productMap">
+<id property="productid" column="productid"/>
+<result property="productname" column="productname"/>
+<result property="originplace" column="originplace"/>
+<result property="specifications" column="specifications"/>
+<result property="grade" column="grade"/>
+<result property="inventory" column="inventory"/>
+<result property="storehouse" column="storehouse"/>
+<result property="price" column="price"/>
+<result property="sf" column="sf"/>
+<result property="classid" column="classid"/>
+<association property="giveruser" column="gid" select="com.dao.GiveuserDao.findgiveuserByid"></association>
+</resultMap>
+
+<select id="finddetailBypid" parameterType="java.lang.Integer" resultMap="com.dao.ResourceDao.resourceDetailsMap">
+select * from resourcesdetails where productid=#{productid}
+</select>
+</mapper>

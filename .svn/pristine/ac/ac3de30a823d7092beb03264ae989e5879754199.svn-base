@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.dao.GiveuserDao">
+     
+     
+     <!-- 升级为个人供应商 -->
+     <insert id="findAddgr"  parameterType="com.pojo.Giveuser"  >
+       insert into giveuser(gid,userid,rname,sid,spath,address,gphone,email,judge) VALUES
+			(give_seq.nextval,#{userid},#{rname},#{sid},#{spath},#{address},#{gphone},#{email},#{judge})
+     </insert>
+     
+     <!--  //升级为公司供应商-->
+     <insert id="findAddgs" parameterType="com.pojo.Giveuser">
+     insert into giveuser(gid,userid,cname,address,spath,qyfrname,rname,post,gphone,judge) VALUES
+			(give_seq.nextval,#{userid},#{cname},#{address},#{spath},#{qyfrname},#{rname},#{post},#{gphone},#{judge})
+     
+     </insert>
+     
+     <!--//判断是否已经是 个人供应商或者公司供应商  -->
+     <select id="findgid"  parameterType="java.lang.Integer"  resultType="com.pojo.Giveuser">
+  		   SELECT gid ,userid, judge FROM giveuser WHERE userid=#{userid}
+     </select>
+     
+     
+     
+     
+     <!-- 根据id查找供应商  -->
+		<select id="findgiveuserByid" parameterType="java.lang.Integer" resultType="com.pojo.Giveuser">
+		select * from  giveuser where gid=#{gid}
+		</select>
+
+</mapper>
